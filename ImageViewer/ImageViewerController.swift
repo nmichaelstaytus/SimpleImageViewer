@@ -29,11 +29,12 @@ public final class ImageViewerController: UIViewController {
     override public func viewDidLoad() {
         super.viewDidLoad()
         imageView.image = configuration?.imageView?.image ?? configuration?.image
-        
+
         setupScrollView()
         setupGestureRecognizers()
         setupTransitions()
         setupActivityIndicator()
+        setupDetailsView()
     }
 }
 
@@ -82,6 +83,17 @@ private extension ImageViewerController {
         transitioningDelegate = transitionHandler
     }
     
+    func setupDetailsView() {
+        guard let detailsView = configuration?.detailsView else { return }
+        view.addSubview(detailsView)
+        detailsView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            detailsView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            detailsView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            detailsView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+        ])
+    }
+
     func setupActivityIndicator() {
         guard let block = configuration?.imageBlock else { return }
         activityIndicator.startAnimating()
